@@ -61,6 +61,7 @@
 
             <!-- Title -->
             <h1 class="mt-4">{{ post.title }}</h1>
+            <h5 class="text-muted">{{post.hook_text}}</h5>
 
             <!-- Author -->
             <p class="lead">
@@ -78,7 +79,6 @@
             <!-- Preview Image -->
             {% if post.head_image %}
                 <img class="img-fluid rounded" src="{{ post.head_image.url }}" alt="{{ post.title }} head_image">
-
             {% endif %}
             <hr>
 
