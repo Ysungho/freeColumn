@@ -8,7 +8,7 @@ from django.utils.text import slugify
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
-    fields = ['title', 'hook_text', 'content', 'head_image', 'file_upload', 'category', 'tags']
+    fields = ['title', 'hook_text', 'content', 'head_image', 'file_upload', 'category']
 
     template_name = 'blog/post_update_form.html'
 
@@ -35,11 +35,14 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         tags_str = self.request.POST.get('tags_str')
         if tags_str:
             tags_str = tags_str.strip()
-            tags_str = tags_str.replace(',', ';')
+            tags_str = tags_str.replace(',', ';').replace(' ', '')
+            while ';;' in tags_str:
+                tags_str = tags_str.replace(';;', ';')
             tags_list = tags_str.split(';')
 
             for t in tags_list:
                 t = t.strip()
+                if len(t) < 2: continue
                 tag, is_tag_created = Tag.objects.get_or_create(name=t)
                 if is_tag_created:
                     tag.slug = slugify(t, allow_unicode=True)
@@ -119,24 +122,23 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if current_user.is_authenticated and (current_user.is_staff or current_user.is_superuser):
             form.instance.author = current_user
             response = super(PostCreate, self).form_valid(form)
-
             tags_str = self.request.POST.get('tags_str')
+
             if tags_str:
                 tags_str = tags_str.strip()
-
-                tags_str = tags_str.replace(',', ';')
+                tags_str = tags_str.replace(',', ';').replace(' ', '')
+                while ';;' in tags_str:
+                    tags_str = tags_str.replace(';;', ';')
                 tags_list = tags_str.split(';')
-
                 for t in tags_list:
                     t = t.strip()
+                    if len(t) < 2: continue
                     tag, is_tag_created = Tag.objects.get_or_create(name=t)
                     if is_tag_created:
                         tag.slug = slugify(t, allow_unicode=True)
                         tag.save()
                     self.object.tags.add(tag)
-
             return response
-
         else:
             return redirect('/blog/')
 
