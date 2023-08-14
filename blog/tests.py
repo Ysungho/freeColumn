@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 from django.contrib.auth.models import User
 
 
@@ -42,6 +42,12 @@ class TestView(TestCase):
         )
         self.post_003.tags.add(self.tag_python_kor)
         self.post_003.tags.add(self.tag_python)
+
+        self.comment_001 = Comment.objects.create(
+            post=self.post_001,
+            author=self.user_obama,
+            content='첫 번째 댓글입니다. '
+        )
 
     def navbar_test(self, soup):
         navbar = soup.nav
@@ -161,6 +167,12 @@ class TestView(TestCase):
         self.assertNotIn(self.tag_python.name, post_area.text)
         self.assertNotIn(self.tag_python_kor.name, post_area.text)
 
+        # comment area
+        comments_area = soup.find('div', id='comment-area')
+        comment_001_area = comments_area.find('div', id='comment-1')
+        self.assertIn(self.comment_001.author.username, comment_001_area.text)
+        self.assertIn(self.comment_001.content, comment_001_area.text)
+
     def test_tag_page(self):
         response = self.client.get(self.tag_hello.get_absolute_url())
         self.assertEqual(response.status_code, 200)
@@ -190,8 +202,6 @@ class TestView(TestCase):
         # staff인 obama로 로그인 한다.
         self.client.login(username='obama', password='somepassword')
 
-        # 로그인을 한다.
-        # self.client.login(username='trump', password='somepassword')
         response = self.client.get('/blog/create_post/')
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -208,7 +218,7 @@ class TestView(TestCase):
             {
                 'title': 'Post Form 만들기',
                 'content': "Post Form 페이지를 만듭시다.",
-                'tags_str': 'new tag; 한글 태그, python',
+                'tags_str': 'newtag; 한글태그, python'
             }
         )
         last_post = Post.objects.last()
@@ -216,8 +226,8 @@ class TestView(TestCase):
         self.assertEqual(last_post.author.username, 'obama')
 
         self.assertEqual(last_post.tags.count(), 3)
-        self.assertTrue(Tag.objects.get(name='new tag'))
-        self.assertTrue(Tag.objects.get(name='한글 태그'))
+        self.assertTrue(Tag.objects.get(name='newtag'))
+        self.assertTrue(Tag.objects.get(name='한글태그'))
         self.assertEqual(Tag.objects.count(), 5)
 
     def test_update_post(self):
@@ -258,7 +268,7 @@ class TestView(TestCase):
                 'title': '세번째 포스트를 수정했습니다. ',
                 'content': '안녕 세계? 우리는 하나!',
                 'category': self.category_music.pk,
-                'tags_str': '파이썬 공부; 한글 태그, some tag'
+                'tags_str': '파이썬공부; 한글태그, sometag'
             },
             follow=True
         )
@@ -267,7 +277,7 @@ class TestView(TestCase):
         self.assertIn('세번째 포스트를 수정했습니다.', main_area.text)
         self.assertIn('안녕 세계? 우리는 하나!', main_area.text)
         self.assertIn(self.category_music.name, main_area.text)
-        self.assertIn('파이썬 공부', main_area.text)
-        self.assertIn('한글 태그', main_area.text)
-        self.assertIn('some tag', main_area.text)
+        self.assertIn('파이썬공부', main_area.text)
+        self.assertIn('한글태그', main_area.text)
+        self.assertIn('sometag', main_area.text)
         self.assertNotIn('python', main_area.text)
