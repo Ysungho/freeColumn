@@ -30,7 +30,7 @@
                     {% if p.hook_text %}
                         <h5 class="text/-muted">{{ p.hook_text }}</h5>
                     {% endif %}
-                    <p class="card-text">{{ p.get_content_markdown | truncatechars_html:30 |safe}}</p>
+                    <p class="card-text">{{ p.get_content_markdown | truncatechars_html:30 |safe }}</p>
                     {% if p.tags.exists %}
                         <i class="fas fa-tags"></i>
                         {% for tag in p.tags.iterator %}
@@ -53,14 +53,28 @@
     {% endif %}
 
 
-    <!-- Pagination -->
-    <ul class="pagination justify-content-center mb-4">
-        <li class="page-item">
-            <a class="page-link" href="#">&larr; Older</a>
-        </li>
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Newer &rarr;</a>
-        </li>
-    </ul>
+    {% if is_paginated %}
+        <!-- Pagination -->
+        <ul class="pagination justify-content-center mb-4">
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&larr; Older</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&larr; Older</a>
+                </li>
+            {% endif %}
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Newer &rarr;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Newer &rarr;</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
 
 {% endblock %}

@@ -58,6 +58,7 @@ class PostList(ListView):
     model = Post
     # template_name = 'blog/index.html'
     ordering = '-pk'
+    paginate_by = 7
 
     def get_context_data(self, **kwargs):
         context = super(PostList, self).get_context_data()
@@ -178,6 +179,7 @@ class CommentUpdate(LoginRequiredMixin, UpdateView):
             return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
+
 
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
