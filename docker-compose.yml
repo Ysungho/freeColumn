@@ -3,7 +3,8 @@ version: '3'
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+
+    command: gunicorn freeColumn_prj.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./:/usr/src/app/
     ports:
@@ -13,7 +14,7 @@ services:
 
     depends_on:
       - db
-      
+
   db:
     image: postgres:12.0-alpine
     volumes:
