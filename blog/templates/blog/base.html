@@ -2,7 +2,7 @@
 <html>
 {% load static %}
 <head>
-    <title>{% block head_title %}Blog{% endblock %}</title>
+    <title>{% block head_title %}Articles{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
 
     <script src="https://kit.fontawesome.com/ce8ce0f1d5.js" crossorigin="anonymous"></script>
@@ -23,12 +23,12 @@
         <div class="col-md-4 col-lg-3">
             <!-- Search Widget -->
             <div class="card my-4">
-                <h5 class="card-header">Search</h5>
+                <h5 class="card-header">검색</h5>
                 <div class="card-body">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for..." id="search-input">
+                        <input type="text" class="form-control" placeholder="검색어 입력" id="search-input">
                         <span class="input-group-btn">
-                                <button class="btn btn-secondary" type="button" onclick="searchPost();">Go!</button>
+                                <button class="btn btn-secondary" type="button" onclick="searchPost();">찾기</button>
                             </span>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 
             <!-- Categories Widget -->
             <div class="card my-4" id="categories-card">
-                <h5 class="card-header">Categories</h5>
+                <h5 class="card-header">주제</h5><!--Categories=>주제-->
                 <div class="card-body">
                     <div class="row">
 

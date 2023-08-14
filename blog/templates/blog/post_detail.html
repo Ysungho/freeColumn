@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load crispy_forms_tags %}
 {% block head_title %}
-    {{ post.title }} - Blog
+    {{ post.title }} - blog
 {% endblock %}
 {% block main_area %}
     <div id="post-area">
@@ -24,7 +24,7 @@
 
         {% if user.is_authenticated and user == post.author %}
             <a class="btn btn-info btn-sm float-right" href="/blog/update_post/{{ post.pk }}/" role="button"><i
-                    class="fas fa-pen"></i> Edit Post</a>
+                    class="fas fa-pen"></i> 수정 </a><!--Edit Post=>글 수정-->
         {% endif %}
 
 
@@ -73,7 +73,7 @@
     <div id="comment-area">
         <!-- Comments Form -->
         <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
+            <h5 class="card-header">댓글 입력</h5><!--Leave a Comment:=>댓글 입력-->
             <div class="card-body">
                 {% if user.is_authenticated %}
                     <form id="comment-form" method="POST" action="{{ post.get_absolute_url }}new_comment/">
@@ -81,11 +81,11 @@
                         <div class="form-group">
                             {{ comment_form | crispy }}
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">확인</button><!--Submit=>확인-->
                     </form>
                 {% else %}
                     <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal"
-                       data-target="#loginModal">Log in and leave a comment</a>
+                       data-target="#loginModal">로그인 후 댓글을 남겨주세요</a><!--Log in and leave a comment=>로그인 후 댓글을 남겨주세요-->
                 {% endif %}
             </div>
         </div>
@@ -102,14 +102,14 @@
                                    class="btn btn-sm btn-info"
                                    id="comment-{{ comment.pk }}-update-btn"
                                    href="/blog/update_comment/{{ comment.pk }}/">
-                                    edit
+                                    수정<!--edit=>수정-->
                                 </a>
                                 <a role="button"
                                    href="#"
                                    id="comment-{{ comment.pk }}-delete-modal-btn"
                                    class="btn btn-sm btn-danger"
                                    data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
-                                    delete
+                                    삭제<!--delete=>삭제-->
                                 </a>
                             </div>
 
@@ -119,7 +119,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
+                                            <h5 class="modal-title" id="deleteModalLabel">한번 더 확인해 주세요!!</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -129,10 +129,10 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                Cancel
+                                                취소
                                             </button>
                                             <a role="button" class="btn btn-danger"
-                                               href="/blog/delete_comment/{{ comment.pk }}/">Delete</a>
+                                               href="/blog/delete_comment/{{ comment.pk }}/">삭제</a><!--Delete=>삭제-->
                                         </div>
                                     </div>
                                 </div>

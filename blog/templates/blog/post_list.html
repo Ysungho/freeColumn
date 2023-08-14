@@ -5,11 +5,11 @@
     {% if user.is_authenticated %}
         {% if user.is_superuser or user.is_staff %}
             <a class="btn btn-info btn-sm float-right" href="/blog/create_post/" role="button"><i
-                    class="fas fa-pen"></i>&nbsp;&nbsp;New Post</a>
+                    class="fas fa-pen"></i>&nbsp;&nbsp; 새 글 작성 </a>
         {% endif %}
     {% endif %}
 
-    <h1>Blog
+    <h1>Articles
         {% if search_info %}<small class="text-muted">{{ search_info }}</small>{% endif %}
         {% if category %}<span class="badge badge-secondary">{{ category }}</span>{% endif %}
         {% if tag %}<span class="badge badge-light"><i
@@ -42,7 +42,7 @@
                         <br/>
                         <br/>
                     {% endif %}
-                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary">더 보기 &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">
                     Posted on {{ p.created_at }} by
@@ -60,20 +60,20 @@
         <ul class="pagination justify-content-center mb-4">
             {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&larr; Older</a>
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&larr; 이전글</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#">&larr; Older</a>
+                    <a class="page-link" href="#">&larr; 이전글</a>
                 </li>
             {% endif %}
             {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Newer &rarr;</a>
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">최신글 &rarr;</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#">Newer &rarr;</a>
+                    <a class="page-link" href="#">최신글 &rarr;</a>
                 </li>
             {% endif %}
         </ul>
