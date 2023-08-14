@@ -38,7 +38,7 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         tags_str = self.request.POST.get('tags_str')
         if tags_str:
             tags_str = tags_str.strip()
-            tags_str = tags_str.replace(',', ';').replace(' ', '')
+            tags_str = tags_str.replace(',', ';')
             while ';;' in tags_str:
                 tags_str = tags_str.replace(';;', ';')
             tags_list = tags_str.split(';')
@@ -133,7 +133,6 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 tags_str = tags_str.strip()
 
                 tags_str = tags_str.replace(',', ';')
-                tags_str = tags_str.replace(',', ';').replace(' ', '')
                 while ';;' in tags_str:
                     tags_str = tags_str.replace(';;', ';')
                 tags_list = tags_str.split(';')

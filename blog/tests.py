@@ -218,7 +218,7 @@ class TestView(TestCase):
             {
                 'title': 'Post Form 만들기',
                 'content': "Post Form 페이지를 만듭시다.",
-                'tags_str': 'newtag; 한글태그, python'
+                'tags_str': 'new tag; 한글 태그, python'
             }
         )
         last_post = Post.objects.last()
@@ -226,8 +226,8 @@ class TestView(TestCase):
         self.assertEqual(last_post.author.username, 'obama')
 
         self.assertEqual(last_post.tags.count(), 3)
-        self.assertTrue(Tag.objects.get(name='newtag'))
-        self.assertTrue(Tag.objects.get(name='한글태그'))
+        self.assertTrue(Tag.objects.get(name='new tag'))
+        self.assertTrue(Tag.objects.get(name='한글 태그'))
         self.assertEqual(Tag.objects.count(), 5)
 
     def test_update_post(self):
@@ -268,7 +268,7 @@ class TestView(TestCase):
                 'title': '세번째 포스트를 수정했습니다. ',
                 'content': '안녕 세계? 우리는 하나!',
                 'category': self.category_music.pk,
-                'tags_str': '파이썬공부; 한글태그, sometag'
+                'tags_str': '파이썬 공부; 한글 태그, some tag'
             },
             follow=True
         )
@@ -277,9 +277,9 @@ class TestView(TestCase):
         self.assertIn('세번째 포스트를 수정했습니다.', main_area.text)
         self.assertIn('안녕 세계? 우리는 하나!', main_area.text)
         self.assertIn(self.category_music.name, main_area.text)
-        self.assertIn('파이썬공부', main_area.text)
-        self.assertIn('한글태그', main_area.text)
-        self.assertIn('sometag', main_area.text)
+        self.assertIn('파이썬 공부', main_area.text)
+        self.assertIn('한글 태그', main_area.text)
+        self.assertIn('some tag', main_area.text)
         self.assertNotIn('python', main_area.text)
 
     def test_comment_form(self):
