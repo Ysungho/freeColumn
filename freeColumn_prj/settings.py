@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY','django-insecure-6+@4pc6klvrmh9jqfdp2m6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', 1))
-#cmder에서 실행하려면 0으로 바꿀 것!
+#cmder에서 실행하려면 1으로 바꿀 것!
 
 if os.environ.get('DJANGO_ALLOWED_HOSTS'):
     ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
